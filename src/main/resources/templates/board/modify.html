@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<!-- 조각을 basic 템플릿 파일에 전달하기 -->
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+
+<!-- 타이틀 폼 버튼 코드를 content라는 조각으로 만들기 -->
+    <th:block th:fragment="content"> 
+    
+<h1 class="mt-4">Board Modify Page</h1>
+
+<!-- 컨트롤러에서 데이터 전달받았는지 확인
+[[${dto}]] -->
+
+<form>
+
+  <div class="form-group">
+    <label >번호</label>
+    <!-- 입력필드의 name속성은 dto필드와 매핑 -->
+    <input type="text" class="form-control" name="no" th:value="${dto.no}" readonly>
+  </div>
+
+  <div class="form-group">
+    <label >제목</label>
+    <input type="text" class="form-control" name="title" th:value="${dto.title}">
+  </div>
+  <div class="form-group">
+    <label >내용</label>
+    <textarea class="form-control" rows="5" name="content">[[ ${dto.content} ]]</textarea>
+  </div>
+  <div class="form-group">
+    <label >작성자</label>
+    <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
+  </div>
+  <div class="form-group">
+    <label >등록일</label>
+    <input type="text" class="form-control" th:value="${ #temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+  </div>
+  <div class="form-group">
+    <label >수정일</label>
+    <input type="text" class="form-control" th:value="${ #temporals.format(dto.modDate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+  </div>
+
+</form>
+
+<button type="button" class="btn btn-primary modifyBtn">수정</button>
+
+<button type="button" class="btn btn-info listBtn">목록으로</button>
+
+<button type="button" class="btn btn-danger removeBtn">삭제</button>
+
+  </th:block>
+
+</th:block>
+<!-- 컨트롤러에서 전달한 데이터를 처리하기 위해서 인라인 속성 추가 -->
+<!-- 인라인 속성 : 컨트롤러에서 전달한 데이터를 자바스크립트의 자료형에 맞게 변환 -->
+<script th:inline="javascript">
+
+//수정 버튼 클릭 시 수정처리요청
+//제이쿼리 라이브러리의 함수를 사용
+
+//$() : 선택자를 사용해서 html문서의 태그를 가져오는 함수
+//클래스 선택자로 수정 버튼
+	const modifyBtn = $('.modifyBtn');
+	
+	//태그 선택자로 폼 태그 가져오기
+	const form = $('form');
+	
+	console.log(form);
+	
+
+//수정버튼클릭이벤트 등록
+modifyBtn.click( ()=>{
+	
+	//확인을 누르면 true
+	//취소를 누르면 false
+	if(confirm('수정하시겠습니까')) {
+		
+		// 폼태그에 속성을 추가
+		form.attr('action', '/board/modify')
+			.attr('method', 'post')
+			.submit();
+		
+	} else {
+		//취소를 누르면 함수종료
+		return;
+	}
+	
+} );
+
+// 목록으로
+// 제이쿼리 함수로 목록 버튼 
+// 클래스 선택자 버튼
+const listBtn = $('.listBtn');
+
+// 버튼에 이벤트 등록
+listBtn.click( ()=> {
+	form.attr('action', '/board/list')
+		.attr('method', 'get')
+		.submit();
+	
+} );
+
+// 삭제
+const removeBtn = $('.removeBtn');
+
+removeBtn.click(()=>{
+	form.attr('action', '/board/remove')
+		.attr('method', 'post')
+		 .submit();
+	
+});
+
+
+</script>

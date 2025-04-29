@@ -1,0 +1,137 @@
+//<!DOCTYPE html>
+//
+//<!-- 조각을 basic이라는 레이아웃에 전달하기 -->
+//<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+//
+//<!-- 타이틀과 테이블 코드 -->
+//    <th:block th:fragment="content">
+//
+//  
+//<h1>Board List Page
+//    <span>
+//    <!-- 게시물 등록화면으로 이동하는 링크 -->
+//         <a href="/board/register">
+//            <button type="button" class="btn btn-outline-primary"> 게시물 등록</button>
+//        </a>
+//    </span>
+//</h1>
+//
+//<!-- 컨트롤러에서 데이터를 정상적으로 받았는지 확인 -->
+//<!-- [[${list}]] -->
+//
+//<table class="table table-striped">
+//    <!-- 부트스트랩의 스타일 적용 -->
+//    <!-- 제목 (고정) -->
+//    <thead>
+//    <tr>
+//        <th>#</th>
+//        <th>제목</th>
+//        <th>작성자</th>
+//        <th>등록일</th>
+//    </tr>
+//    </thead>
+//    <!-- 실제 데이터
+//    컨드롤러에서 전달받은 데이터를 출력 -->
+//    <tbody>
+//    <!-- 리스트 안에 있는 요소를 하나씩 꺼내면서<tr> 태그를 생성 -->
+//    <tr th:each="dto : ${list}">
+//    <!-- 게시물 번호에 링크달기 (상세화면)
+//    게시물 번호를 url 파라미터로 전달
+//    타임리프의 주소 표현식 전달 -->
+//    
+//        <th>
+//        <!-- (no=변수) => ?no=값 -->
+//        <a th:href="@{/board/read(no = ${dto.no})}">
+//        [[${dto.no}]]
+//        </a>
+//        </th>
+//        <td>[[${dto.title}]]</td>
+//        <td>[[${dto.writer}]]</td>
+//        <!-- 타임리프가 제공하는 객체를 사용하여 날짜를 가공 -->
+//        
+//        <td>[[ ${ #temporals.format(dto.regDate, 'yyyy-MM-dd')} ]]</td>
+//     <!--   <td>[[${dto.regDate}]]</td>  -->
+//    </tr>
+//    </tbody>
+//
+//</table>
+//
+//<!-- 주석 해제: ctrl + shift + \ -->
+//<!-- 주석을 하나씩 해제하세요! -->
+//
+//<!-- 1. 페이지 번호 목록 생성 -->
+//<!-- <ul class="pagination h-100 justify-content-center align-items-center">
+//	<li class="page-item active">
+//	<a class="page-link" href="">1</a>
+//	</li>
+//	<li class="page-item">
+//	<a class="page-link" href="">2</a>
+//	</li>
+//	<li class="page-item">
+//	<a class="page-link" href="">3</a>
+//	</li>
+//</ul> -->
+//
+//<!-- 컨트롤러에서 전달받은 페이지 객체
+//[[${list.totalPages}]] -->
+//
+//<!-- 2. 전달받은 전체 페이지 수를 이용하여 페이지 번호 목록을 자동으로 생성 -->
+//<!-- numbers 객체를 사용하여 1부터 3까지 목록 생성 [1,2,3] -->
+//<!-- <th:block th:each="page : ${#numbers.sequence(1, list.totalPages)}">
+//	[[${page}]]
+//</th:block> -->
+//
+//<!-- 3. 페이지 번호 목록 생성 및 'active' 클래스 적용 -->
+//<!-- if문에서 list.number는 현재페이지 번호, page는 페이지 번호 목록 -->
+//<!-- 현재 페이지 번호에 'active' 클래스 추가 -->
+//<!-- 주소에서 page 번호 바꿔서 테스트! -->
+//
+//<!-- 페이지 번호가 현재 페이지 번호와 같아면 active 클래스 추가 -->
+//<!-- <ul class="pagination h-100 justify-content-center align-items-center">
+//	<th:block th:each="page : ${#numbers.sequence(1, list.totalPages)}">
+//		<th:block th:if="${list.number+1 == page}">
+//			<li class="page-item active">
+//			<a class="page-link" href="">[[${page}]]</a>
+//			</li>
+//		</th:block>
+//		<th:block th:unless="${list.number+1 == page}">
+//			<li class="page-item">
+//			<a class="page-link" href="">[[${page}]]</a>
+//			</li>
+//		</th:block>
+//	</th:block>
+//</ul> -->
+//
+//<!-- 4. 페이지 번호를 클릭하면 해당 페이지로 이동하도록 처리 (최종) -->
+//<!-- a 태그에 list 주소를 입력하고, 선택한 페이지 번호를 파라미터로 전달 -->
+//<ul class="pagination h-100 justify-content-center align-items-center">
+//	<th:block th:each="page : ${#numbers.sequence(1, list.totalPages)}">
+//		<th:block th:if="${list.number+1 == page}">
+//			<li class="page-item active">					
+//			<a class="page-link" th:href="@{/board/list(page = ${page})}">[[${page}]]</a>
+//			</li>
+//		</th:block>
+//		<th:block th:unless="${list.number+1 == page}">
+//			<li class="page-item">
+//			<a class="page-link" th:href="@{/board/list(page = ${page})}">[[${page}]]</a>
+//			</li>
+//		</th:block>
+//	</th:block>
+//</ul>
+//
+// 
+//
+//<!-- 등록이 끝나고 목록으로 이동했을 때, 새로운 게시물 번호를 표시 -->
+//<script th:inline="javascript">
+//
+//const no = [[ ${NewNo} ]];
+//
+//if(no != null){
+//	alert(no + "번 글 등록");
+//}
+//
+//</script>
+//
+//</th:block>
+//
+//</th:block>
