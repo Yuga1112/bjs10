@@ -44,19 +44,23 @@ public class MemberController {
 	
 	//새로운 회원 추가 메소드
 	//새로운 회원 정보를 파라미터로 수집
+	
+	//회원가입 성공시 회원 목록화면
+	//회원 목록화면은 관리자만 접근
+	// 일반회원은 x
 	@PostMapping("/register")
 	public String registerPost(MemberDTO dto, RedirectAttributes attributes) {
 		boolean result = service.register(dto);	
 		
-		//등록 성공 시 목록화면으로 이동
+		//등록 성공 시 메인화면으로 이동
 		// 그렇지 않으면 실패메세지
 		if(result) {
 			
-			return "redirect:/member/list";
+			return "redirect:";
 		} else {
 			
 			attributes.addFlashAttribute("msg", "아이디 중복, 등록실패");
-			return "redirect:/member/register";
+			return "redirect:/register";
 			
 		}
 		

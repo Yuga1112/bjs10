@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +64,16 @@ public class BoardController {
     
    // 게시물을 등록하는 함수
     //폼화면에서 전달한 데이터를 파라미터로 수집
+    //매개변수로 인증객체 받기
     //RedirectAttributes : 리다이렉트시 화면에 데이터를 전달하는 개개체
     @PostMapping("/register")
-    public String registerPost(BoardDTO dto, RedirectAttributes redirectAttributes) {
+    public String registerPost(Principal principal, BoardDTO dto, RedirectAttributes redirectAttributes) {
+    	
+    	String id = principal.getName();
+    	System.out.println("user id : " + id);
+    	
+    	//인증객체에서 꺼낸
+    	dto.setWriter(id);
     
     	//전달받은 게시물을 등록하고 새운 게시물 번호 받기
     	int newNo = service.register(dto);

@@ -8,6 +8,16 @@
 
         <h1>Main Page</h1>
 
-    </th:block>
+		<!-- 사용자 인증 정보 출력 -->
+		<!-- 시큐리티 태그 이요해서 인증객체 -->
+		<b>Authenticated DTO:</b>
+		<div sec:authentication="principal"></div>
+		<b>Authenticated username:</b>
+		<div sec:authentication="name"></div>
+		<b>Authenticated user role:</b>
+		<div sec:authentication="principal.authorities"></div>
+
+
+	</th:block>
 
 </th:block>

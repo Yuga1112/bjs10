@@ -15,4 +15,10 @@ public class HomeController {
 		//반환값 : home 폴더 아래 main.html
 		return "/home/main";
 	}
+	//로그인화면 반환
+	//반환값 ㅣ home 폴더 아래 login.html
+	@GetMapping("/customlogin")
+	public String customLogin() {
+		return "/home/login";
+	}
 }

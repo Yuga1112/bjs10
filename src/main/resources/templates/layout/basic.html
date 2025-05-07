@@ -27,7 +27,9 @@
     <div class="border-end bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/member/list">회원관리</a>
+        <!-- 관리자 권한을 가지고 있으면 회원관리 메뉴 표시 
+        admin 권한 있으면 a태그 생성-->
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/member/list" sec:authorize="hasRole('ROLE_ADMIN')">회원관리</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/board/list">게시물관리</a>
             
         </div>
@@ -42,7 +44,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                         <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Link</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

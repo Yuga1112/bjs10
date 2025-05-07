@@ -30,6 +30,8 @@ public class SecurityConfig {
 		// 게시물관리 댓글관리는 일반사용자 또는 관리자만 가능
 		// 회원관리는 관리자만
 		http.authorizeHttpRequests()
+		.requestMatchers("/assets/*", "/css/*", "/js/*").permitAll()
+		
 			.requestMatchers("/register").permitAll()
 			.requestMatchers("/").authenticated()
 			.requestMatchers("/board/*").hasAnyRole("ADMIN", "USER")
@@ -42,8 +44,24 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable());
 		
 		//로그인 및 로그아웃 기능
-		http.formLogin();
+	
 		http.logout();
+		
+		//시큐리티가 제공하는 기본 페이지 대신 커스텀 사용
+		http.formLogin(form -> {
+			
+			//커스텀 로그인 페이지 url
+			form.loginPage("/customlogin")
+				.loginProcessingUrl("/login")
+				.permitAll()  //접근권한 아무나 사용 가능
+				
+				//request -> http request 객체
+				//response -> http response 객체
+				.successHandler((request,response,authentication)->{
+					//로그인 성공시 메인페이지
+					response.sendRedirect("/");
+				}); 
+		});
 		
 		return http.build();
 		
